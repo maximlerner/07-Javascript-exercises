@@ -6,11 +6,6 @@ const arr = [2,3,4];
 const [a,b,c] = arr;
 console.log(a,b,c);
 
-// Data needed for a later exercise
-const flights =
-  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
-
-
 const restaurant = {
   name: 'Classico Italiano',
   location: 'Via Angelo Tavanti 23, Firenze, Italy',
@@ -733,7 +728,7 @@ for (const [key,event] of gameEvents) console.log( key < 45 ?`[FIRST HALF] ${key
 
 //------------------------------------------------------------------------------------------
 
-*/
+
 
 //Part 4
 
@@ -841,6 +836,205 @@ const checkBaggage = function(items) {
 checkBaggage('I have laptop, some Food and a pocket Knife');
 checkBaggage('Socks and camera');
 checkBaggage('Got some snacks and a gun for protection');
+
+
+//-----------------------------------------------------------------------------------------
+
+
+//Here we create an array by spliting the string by dividing it with the +
+console.log('a+very+nice+string'.split('+'));
+//Here we create an array by spliting the string by dividing it with a space
+console.log('Maxim Lerner'.split(' '));
+
+//Here we create 2 variables from the divided string
+const [firstName,lastName] = 'Maxim Lerner'.split(' ');
+console.log(firstName,lastName);
+
+//Here we will create new string
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName);
+
+
+
+//Solution A
+const capitalizeName1 = function(name) {
+  const nameArray = name.trim().split(' ');
+  let fixedString = '';
+  for (const element of nameArray) {
+    const upperCased = element[0].toUpperCase() + element.slice(1);
+    fixedString += `${upperCased} `
+  }
+  console.log(`Fixed string: ${fixedString}`);
+}
+
+//Solution B
+const capitalizeName2 = function(name) {
+  const names = name.trim().split(' ');
+  let namesUpper = [];
+  for (const n of names) {
+    // namesUpper.push(n[0].toUpperCase() + n.slice(1));
+    //Same as above comment
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+  console.log(namesUpper.join(' '));
+}
+
+capitalizeName1('jessica ann smith davis');
+capitalizeName1('maxim lerner');
+capitalizeName2('jessica ann smith davis');
+capitalizeName2('maxim lerner');
+
+
+// Padding
+// This will add the patern until the string will have length of 25 letters
+const message = 'Go to gate 23!';
+console.log(message.padStart(25, '+'));
+console.log('Max'.padStart(25, '+'));
+
+// This will add the patern until the string will have length of 25 letters and then
+// we will use the padend method to complete 35 letters
+console.log(message.padStart(25, '+').padEnd(35,'+'));
+
+
+//Here we will create a function that show last 4 digits like this: *****************5656
+//Solution B
+const maskCreditCard1 = function(number) {
+  const string = String(number).slice(-4).padStart(16,'*');
+  console.log(string);
+}
+
+//Solution B
+const maskCreditCard2 = function(number) {
+  const str = number + '';
+  const last = str.slice(-4);
+  return last.padStart(str.length,'*');
+}
+maskCreditCard1(6665654554674455);
+console.log(maskCreditCard2(65654554853445));
+
+// Repeat
+//This will create long string
+const message2 = 'Bad weather...All Departures Delayed...';
+console.log(message2.repeat(5));
+
+const planeInLine = function(n) {
+  //Here we will print the amount of planes icons based on the number we pass 
+  console.log(`There are ${n} planes in line ${'✈'.repeat(n)}`);
+}
+
+planeInLine(5);
+planeInLine(3);
+planeInLine(12);
+
+
+//------------------------------------------------------------------------------------------------
+
+// Coding Challenge #4
+// Write a program that receives a list of variable names written in underscore_case 
+// and convert them to camelCase.
+// The input will come from a textarea inserted into the DOM (see code below to 
+// insert the elements), and conversion will happen when the button is pressed.
+// Test data (pasted to textarea, including spaces):
+// underscore_case
+// first_name
+// Some_Variable 
+//  calculate_AGE
+// delayed_departure
+// Should produce this output (5 separate console.log outputs):
+// underscoreCase ✅
+// firstName ✅✅
+// someVariable ✅✅✅
+// calculateAge ✅✅✅✅
+// delayedDeparture ✅✅✅✅✅
+// Hints:
+// § Remember which character defines a new line in the textarea �
+// § The solution only needs to work for a variable made out of 2 words, like a_b
+// § Start without worrying about the ✅. Tackle that only after you have the variable 
+// name conversion working �
+// § This challenge is difficult on purpose, so start watching the solution in case 
+// you're stuck. Then pause and continue!
+// Afterwards, test with your own test data!
+// GOOD LUCK 
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+
+
+//Solution A
+document.querySelector('button').addEventListener('click', function() {
+  const text = document.querySelector('textarea').value.toLowerCase();
+  const stringArray = text.split('\n');
+  let fixedArray = [];
+  
+  for (const n of stringArray) {
+    const index = stringArray.indexOf(n);
+    const dividedString = stringArray[index].split('_');
+    const secondPart = dividedString[1].slice(1);
+    fixedArray.push(dividedString[0] + dividedString[1][0].toUpperCase() + secondPart);
+    console.log((`${fixedArray[index].trim().padEnd(20)} ${'✅'.repeat(index + 1)}`));
+  }
+})
+
+//Solution B
+document.querySelector('button').addEventListener('click', function () {
+  const text = document.querySelector('textarea').value;
+  const rows = text.split('\n');
+
+  for (const [i, row] of rows.entries()) {
+    const [first, second] = row.toLowerCase().trim().split('_');
+
+    const output = `${first}${second.replace(second[0],second[0].toUpperCase())}`;
+
+    console.log(`${output.padEnd(20)}${'✅'.repeat(i + 1)}`);
+  }
+});
+
+//-----------------------------------------------------------------------------------------
+
+
+
+
+const flights =
+  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+
+const convert1 = function() {
+  const rows = flights.split('+');
+  console.log(rows);
+  for (const row of rows) {
+    const firstElement = row.split(';')
+    const status = firstElement[0].slice(1).replace('_',' ');
+    const origin = firstElement[1].slice(0,3).toUpperCase();
+    const destination = firstElement[2].slice(0,3).toUpperCase();
+    const time = firstElement[3].replace(':','h');
+    console.log((`${'⛔'.repeat(status.includes('Delayed')).trim()} ${status} from ${origin} to ${destination} (${time})`).padStart(44));
+  }
+}
+
+const convert2 = function() {
+  const getCode = str => str.slice(0, 3).toUpperCase();
+  for (const flight of flights.split('+')){
+    const [type, from, to, time] = flight.split(';');
+    const output = `${type.startsWith('_Delayed')? '⛔': ''}${type.replaceAll('_',' ')} From ${getCode(from)} to ${getCode(to)} (${time.replace(':','h')})`.padStart(44,' ');
+    console.log(output);
+  }
+}
+
+const getCode = str => str.slice(0, 3).toUpperCase();
+
+for (const flight of flights.split('+')) {
+  const [type, from, to, time] = flight.split(';');
+  const output = `${type.startsWith('_Delayed')? '🔴' : ''}${type.replaceAll('_',' ')} ${getCode(from)} ${getCode(to)} (${time.replace(':', 'h')})`.padStart(36);
+  console.log(output);
+}
+
+// convert1();
+convert2();
+
+*/
+
+
+
 
 
 

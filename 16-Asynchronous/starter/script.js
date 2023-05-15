@@ -576,21 +576,37 @@ const createImage2 = (imgPath) => {
 
 const loadNPause = async () => {
     try{
-        await createImage2('img/img-1.jpg');
-     
-        await wait2(2).then(() => {
-            imgContainer.innerHTML = '';
-            imgContainer.style.display = 'none'
-        })
-        await wait2(2)
-        
-        await createImage2('img/img-2.jpg').then(imgContainer.style.display = 'block');
+        // Load image 1
+        let img = await createImage2('img/img-1.jpg');
+        console.log('Image 1 loaded');
+        await wait2(2);
+        img.style.display = 'none'
 
+        // Load image 1
+        img = await createImage2('img/img-2.jpg');
+        console.log('Image 1 loaded');
+        await wait2(2);
+        img.style.display = 'none'
+          
     } catch(err) {
         console.error(err);
     }
 }
 
-loadNPause()
+// loadNPause()
+
+
+const loadAll = async (imgArr) => {
+    try{
+        const imgs =imgArr.map(async img => await createImage2(img));
+        console.log(imgs);
+        const imgEl = await Promise.all(imgs);
+        imgEl.forEach(img => img.classList.add('parallel'));
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg'])
 
 
